@@ -1,0 +1,74 @@
+@media (min-width:400px)
+{
+#welcome-bottom
+{
+width: 60vw;
+margin-left:10vw;
+}
+.button-submit
+{
+    margin-top: 40%;
+}
+}
+/* @media (max-width:400px)
+{
+#welcome-bottom
+{
+width: 80vw;
+margin-left:10vw;
+}
+.button-submit
+{
+    margin-top: 40%;
+}
+} */
+@media (min-width:540px)
+{
+#welcome-bottom
+{
+width: 60vw;
+margin-left:20vw;
+}
+.button-submit
+{
+    margin-top: 40%;
+}
+}
+
+@media (min-width:700px)
+{
+#welcome-bottom
+{
+width: 40vw;
+margin-left:30vw;
+}
+.button-submit
+{
+    margin-top: 40%;
+}
+}
+@media (min-width:900px)
+{
+#welcome-bottom
+{
+width: 24vw;
+margin-left:35vw;
+}
+.button-submit
+{
+    margin-top: 50%;
+}
+}
+@media (min-width:1200px)
+{
+#welcome-bottom
+{
+width: 21vw;
+margin-left:35vw;
+}
+.button-submit
+{
+    margin-top: 50%;
+}
+
+}
