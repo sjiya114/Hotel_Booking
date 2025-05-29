@@ -37,7 +37,7 @@ function Navbar() {
                             <div> <Link to='/rooms' className='hover:underline'>Hotels    </Link>   </div>
                             <div><Link className='hover:underline'>Experience    </Link>   </div>
                             <div><Link className='hover:underline'>About    </Link>   </div>
-                            {user &&  <div> <Link  onClick={()=>{!isOwner?setShowHotelReg(true):nav("/owner")}}       className='border-1 border-white px-2 py-2 rounded-2xl'>{isOwner ? 'Dashboard' : 'List Your Hotels'}    </Link>   </div>}
+                            {user &&  <div> <Link  onClick={(e)=>{!isOwner?setShowHotelReg(true):nav("/owner")}}       className='border-1 border-white px-2 py-2 rounded-2xl'>{isOwner ? 'Dashboard' : 'List Your Hotels'}    </Link>   </div>}
                             <div>
                                 {!localStorage.getItem("token") && <div className='flex justify-center items-center flex-row min-md:space-x-10'>
                                     <img src={assets.searchIcon} ></img>
