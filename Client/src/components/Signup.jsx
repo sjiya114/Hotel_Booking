@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import { UseAppContext } from '../Context/AppContext';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 function Signup() {
   const {setUser,setToken}=UseAppContext();
@@ -103,7 +104,7 @@ function Signup() {
                </div>
            <div className='button-submit'>
               <button type='submit' className='bg-gray-400 text-center w-full rounded-md px-4 py-2 text-gray-950 hover:bg-purple-600 hover:text-white'>Create Account</button>
-              <h6>Already have a account? <a href="/login">Login</a></h6> 
+              <h6>Already have a account? <Link to="/login">Login</Link></h6> 
            </div>
           </form>
         </div>
