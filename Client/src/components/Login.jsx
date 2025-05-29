@@ -14,7 +14,7 @@ function Login() {
     {
       e.preventDefault();
       const user={email:email,password:password};
-      let res=await axios.post(`http://localhost:3000/user/login`,user);
+      let res=await axios.post(`/user/login`,user);
       console.log(res.data);
       if(res.data.success)
       {
