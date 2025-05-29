@@ -13,6 +13,10 @@ const rooms = require('./routes/rooms');
 const booking=require('./routes/booking');
 const connectCloudinary = require('./config/cloudinary');
 connectCloudinary();
+app.get("/",(req,res)=>
+{
+    res.send("API is working");
+})
 app.use("/user",user); 
 app.use("/hotel",hotel);
 app.use("/rooms",rooms);
