@@ -52,7 +52,7 @@ function Navbar() {
                                     <div>
                                         {isopen &&
                                             <div className='text-white mx-[35vw] bg-black flex flex-col  px-2 py-2 rounded-lg    shadow-2xs shadow-white'>
-                                                <div><Link className='hover:underline'> <button onClick={()=>nav("/my-bookings")}   >My Bookings</button>    </Link>   </div>
+                                                <div><Link className='hover:underline'><button ><Link to="/my-bookings">My Bookings</Link></button>    </Link>   </div>
                                                 <div><Link className='hover:underline  cursor-pointer ' > <button className='cursor-pointer'  onClick={()=>handleLogout} >LogOut</button>    </Link>   </div>
                                             </div>
                                         }
@@ -88,7 +88,7 @@ function Navbar() {
                                 <p><button onClick={(e) => { setIsopen(!isopen) }} className='text-white flex flex-row px-4 py-2 bg-black rounded-2xl cursor-pointer'><img src={assets.userIcon} alt="" /><span>LogOut</span></button></p>
                                 {isopen &&
                                     <div className='text-black bg-white flex flex-col px-2 py-2 rounded-lg    shadow-2xs shadow-white'>
-                                        <div><Link className='hover:underline'> <button onClick={()=>nav("/my-bookings")}>My Bookings</button>    </Link>   </div>
+                                        <div><Link className='hover:underline'><button ><Link to="/my-bookings">My Bookings</Link></button>  </Link>   </div>
                                         <div><Link className='hover:underline cursor-pointer'   > <button onClick={handleLogout}>LogOut</button>    </Link>   </div>
                                     </div>
                                 }
