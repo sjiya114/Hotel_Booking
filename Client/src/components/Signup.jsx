@@ -41,7 +41,7 @@ function Signup() {
     formData.append("role", data.role);
     formData.append("image", data.image);
     console.log(data.image);
-      const res=await axios.post("http://localhost:3000/user/signup",formData, {
+      const res=await axios.post("/user/signup",formData, {
         headers: { "Content-Type": "multipart/form-data" }, // Required for file uploads
       });
       if(res.status===200)
