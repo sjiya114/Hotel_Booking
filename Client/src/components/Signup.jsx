@@ -104,7 +104,11 @@ function Signup() {
                </div>
            <div className='button-submit'>
               <button type='submit' className='bg-gray-400 text-center w-full rounded-md px-4 py-2 text-gray-950 hover:bg-purple-600 hover:text-white'>Create Account</button>
+<<<<<<< HEAD
               <h6>Already have a account? <Link href="/login">Login</Link></h6> 
+=======
+              <h6>Already have a account? <Link to="/login">Login</Link></h6> 
+>>>>>>> cc25d996a2e8fc609b68af6281babbe723b8dc7f
            </div>
           </form>
         </div>

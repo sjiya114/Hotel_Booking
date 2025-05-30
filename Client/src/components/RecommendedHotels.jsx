@@ -3,6 +3,7 @@ import HotelCard from './HotelCard'
 import Title from './Title'
 import { useState,useEffect } from 'react'
 import { UseAppContext } from '../Context/AppContext'
+import { Link } from "react-router-dom";
 function RecommendedHotels() {
     const {rooms,user,searchedCities}=UseAppContext();
     const [recommended,setRecommended]=useState('');
@@ -36,7 +37,7 @@ function RecommendedHotels() {
          ))}
       </div>
       <div className='flex mt-6 items-center justify-center'>
-          <button className='text-black border-1 border-gray-500 rounded-lg cursor-pointer px-2 py-2 w-fit text-center'>View All Destinations</button>
+          <button className='text-black border-1 border-gray-500 rounded-lg cursor-pointer px-2 py-2 w-fit text-center'><Link to="/rooms" >View All Destinations</Link></button>
       </div>
        
       </div>

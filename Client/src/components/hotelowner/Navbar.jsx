@@ -3,6 +3,7 @@ import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { UseAppContext } from '../../Context/AppContext';
+import {Link} from 'react-router-dom';
 function Navbar() {
     const {setUser,setToken}=UseAppContext();
     const [isopen,setIsopen]=useState(false);

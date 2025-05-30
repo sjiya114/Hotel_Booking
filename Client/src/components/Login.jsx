@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { UseAppContext } from '../Context/AppContext';
+import {Link} from 'react-router-dom';
 import toast from 'react-hot-toast';
 function Login() {
   const {setToken,setUser}=UseAppContext();
@@ -43,7 +44,7 @@ function Login() {
               <input onChange={(e)=>{setPassword(e.target.value)}} value={password} minLength={8} className='border-2 px-2 py-1 mb-1 w-full border-gray-400 rounded-md mt-4' placeholder='Enter password'  name='password' type="password" required /></div>
                <div className='mt-4'>
               <button className='bg-gray-400 text-center w-full rounded-md px-4 py-2 text-gray-950 hover:bg-purple-600 hover:text-white'>Login</button>
-              <h6>Don't have a account? <a href="/signup">Signup</a></h6> 
+              <h6>Don't have a account? <Link to="/signup">Signup</Link></h6> 
            </div>
            </form>
         </div>
