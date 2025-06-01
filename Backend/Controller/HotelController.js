@@ -18,7 +18,7 @@ module.exports.hotelRegister = async (req, res) =>{
        })
        //For saving user data
         const hotel = await newHotel.save();
-        const user=userModel.findOneAndUpdate({_id:owner},{role:"owner"});
+        const user=await userModel.findOneAndUpdate({_id:owner},{role:"admin"});
         res.json({success:true,message:"hotel registered successfully"});
 
     }catch(error){

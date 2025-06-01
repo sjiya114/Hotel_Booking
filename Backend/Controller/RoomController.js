@@ -73,9 +73,8 @@ module.exports.specificHotelRoom=async(req,res)=>
 try
 {
 console.log("hello");
-const hotel=await hotelModel.find({owner:req.user._id});
-console.log(hotel);
-const rooms=await Rooms.find({owner:hotel._id}).populate("hotel");
+const hotel=await hotelModel.findOne({owner:req.user._id});
+const rooms=await Rooms.find({hotel:hotel._id}).populate("hotel");
 console.log(rooms);
 res.json({success:true,rooms});
 }

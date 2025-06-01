@@ -1,12 +1,14 @@
 const Booking =require('../models/Booking');
 const Rooms  =require('../models/Rooms');
 const Hotel =require('../models/Hotel');
-const { transporter } = require('../config/nodemailer');
-const availability=async({room,checkInDate,checkOutDate})=>
+const transporter=require('../config/nodemailer');
+const availability=async(room,checkInDate,checkOutDate)=>
 {
+// console.log(room);
  const available=await Booking.find({room,checkInDate:{$lte:checkOutDate}
-        ,checkOutDate:{$lte:checkInDate}});
- return available.length===0;
+        ,checkOutDate:{$gte:checkInDate}});
+// console.log(available);
+return available.length===0;
 }
 //API to check availability status
 module.exports.isAvailable=async(req,res)=>
@@ -14,7 +16,8 @@ module.exports.isAvailable=async(req,res)=>
     try
     {
        const {room,checkInDate,checkOutDate,guests}=req.body;
-        const available=availability(room,checkInDate,checkOutDate);
+      //  console.log(room);
+        const available=await availability(room,checkInDate,checkOutDate);
         res.json({success:true,available:available});
     }
     catch(e)
@@ -26,20 +29,18 @@ module.exports.isAvailable=async(req,res)=>
 
 module.exports.bookRoom = async (req, res) => {
   try {
-    console.log("stage1");
+  
     const { room, checkInDate, checkOutDate, guests } = req.body;
     console.log("Request data:", { room, checkInDate, checkOutDate, guests });
 
     const user = req.user._id;
-    console.log("stage2 - user ID:", user);
-
+   
     // Fetch room and populate hotel
     const rooms = await Rooms.findById(room).populate("hotel");
     if (!rooms) {
       return res.json({ success: false, message: "Room not found" });
     }
-    console.log("stage3 - Room and hotel fetched");
-
+  
     const pricePerNight = rooms.pricePerNight;
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
@@ -93,11 +94,11 @@ module.exports.bookRoom = async (req, res) => {
           <li>Guests: ${guests}</li>
           <li>Room Type: ${rooms.type || 'Standard'}</li>
         </ul> 
-        <p>We look forward to welcoming you!</p>
+        <p>We look forward to welcome you!</p>
       `,
     };
 
-    // await transporter.send(mailOptions);
+    await transporter.sendMail(mailOptions);
     console.log("stage7 - Email sent");
 
     res.json({ success: true, booking });
@@ -180,10 +181,10 @@ module.exports.bookRoom = async (req, res) => {
 module.exports.getAllBooking=async(req,res)=>
 {
     try {
-        console.log("h1");
+       
         const client=req.user._id;
         const booking=await Booking.find({user:client}).populate("room hotel").sort({createdAt:-1});
-         console.log("h2"+booking);
+        
         res.json({success:true,booking:booking});
     } catch (error) {
         res.json({success:false,error:error})
@@ -194,22 +195,35 @@ module.exports.getHotelBooking=async(req,res)=>
     console.log(req.user._id);
   try {
         const hotel=await Hotel.findOne({owner:req.user._id});
-
-        console.log("stage1"+hotel);
         if(!hotel)
         {
              res.json({success:false,message:"no hotel found"});
         }
-         console.log("stage2");
+      
         const bookings=await Booking.find({hotel:hotel._id}).populate("room hotel user").sort({createdAt:-1});
         const totalBookings=bookings.length;
-         console.log("stage3 +hehe");
+       
         const totalRevenue=bookings.reduce((acc,booking)=>acc+booking.totalPrice,0);
-          console.log("stage4 +hehe");
-          console.log(bookings+" "+totalBookings+" "+totalRevenue);
+
         res.json({success:true,dashboarddata:{totalBookings,totalRevenue,bookings}});
 
     } catch (error) {
         res.json({success:false,error:error})
     }   
 }
+
+//for payment integration
+// export const stripePayment=async(req,res)=>
+// {
+//   try {
+//      const {bookingId}=req.body;
+//      const bookingData=await Booking.findById(bookingId);
+//      const roomData=await Rooms.findById(bookingData.room).populate("hotel");
+//      const totalPrice=bookingData.totalPrice;
+//      //from below line we will get the frontend url
+//      const {origin}=req.headers();
+
+//   } catch (error) {
+    
+//   }
+// }
