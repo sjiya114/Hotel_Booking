@@ -71,7 +71,7 @@ const Addroom = () => {
       }
       else
       {
-        toast.error(res.data.error);
+        toast.error("error while adding images");
       }
 
   }

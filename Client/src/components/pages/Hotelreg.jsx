@@ -27,6 +27,7 @@ function Hotelreg() {
                toast.success(response.data.message);
                setShowHotelReg(false);
                setIsOwner(true);
+               
                 setData({
                  name:"",address:"",contact:0,city:""
 
@@ -34,7 +35,7 @@ function Hotelreg() {
               navigate("/");
            }
            else{
-              toast.error(response.data.error);
+              toast.error("error while registering user");
            }
         }
 

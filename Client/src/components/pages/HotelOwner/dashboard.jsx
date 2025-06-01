@@ -24,10 +24,10 @@ const dashboard = () => {
       console.log(data.dashboardData);
       setDashboarddata(data.dashboarddata);
     } else {
-      toast.error(data.message);
+      toast.error("error while fetching data");
     }
   } catch (error) {
-    toast.error(error.message);
+      toast.error(error.message || "Something went wrong");
   }
 }
          

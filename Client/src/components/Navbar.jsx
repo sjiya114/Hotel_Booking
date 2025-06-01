@@ -37,7 +37,8 @@ function Navbar() {
                             <div> <Link to='/rooms' className='hover:underline'>Hotels    </Link>   </div>
                             <div><Link className='hover:underline'>Experience    </Link>   </div>
                             <div><Link className='hover:underline'>About    </Link>   </div>
-                            {user &&  <div> <Link  onClick={(e)=>{!isOwner?setShowHotelReg(true):nav("/owner")}}       className='border-1 border-white px-2 py-2 rounded-2xl'>{isOwner ? 'Dashboard' : 'List Your Hotels'}    </Link>   </div>}
+                            {user && !isOwner &&  <div> <Link  onClick={(e)=>{setShowHotelReg(true)}}       className='border-1 border-white px-2 py-2 rounded-2xl'>List Your Hotels    </Link>   </div>}
+                            {user &&  isOwner &&  <div> <Link  to="/owner" className='border-1 border-white px-2 py-2 rounded-2xl'> DashBoard   </Link>   </div>}     
                             <div>
                                 {!localStorage.getItem("token") && <div className='flex justify-center items-center flex-row min-md:space-x-10'>
                                     <img src={assets.searchIcon} ></img>
@@ -77,7 +78,8 @@ function Navbar() {
                             <div> <Link to='/rooms' className='hover:underline'>Hotels    </Link>   </div>
                             <div><Link className='hover:underline'>Experience    </Link>   </div>
                             <div><Link className='hover:underline'>About    </Link>   </div>
-                            {user && <div> <Link  onClick={()=>{!isOwner?setShowHotelReg(true):nav("/owner")}} className='border-1 border-white px-2 py-2 rounded-2xl'>{isOwner ? 'Dashboard' : 'List Your Hotels'}    </Link>   </div>}
+                            {user && !isOwner && <div> <Link  onClick={(e)=>{setShowHotelReg(true)}} className='border-1 border-white px-2 py-2 rounded-2xl'>List Your Hotels</Link>   </div>}
+                             {user && isOwner && <div> <Link to="/owner" className='border-1 border-white px-2 py-2 rounded-2xl'>DashBoard   </Link>   </div>}
                         </div>
                         {!localStorage.getItem("token") && <div className='flex flex-row  min-md:space-x-10'>
                             <img src={assets.searchIcon} ></img>

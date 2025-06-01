@@ -46,7 +46,7 @@ function RoomDetails() {
            
         }
       } catch (error) {
-          toast.error(error.message);
+           toast.error(error.message || "Something went wrong");
       }
      }
 

@@ -22,11 +22,11 @@ const List = () => {
                   
                  }
                  else {
-                    toast.error(data.message);
+                    toast.error("error while getting list data");
                  }
      
              } catch (error) {
-                 toast.error(error.message);
+                  toast.error(error.message || "Something went wrong");
              }
      
          }

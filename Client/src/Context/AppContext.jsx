@@ -36,7 +36,7 @@ export const AppProvider = ({ children }) => {
             }
 
         } catch (error) {
-            toast.error(error);
+              toast.error(error.message || "Something went wrong");
         }
 
     }
