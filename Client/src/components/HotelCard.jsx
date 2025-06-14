@@ -4,7 +4,7 @@ import { assets } from '../assets/assets'
 function HotelCard({room,index}) {
   return (
     <>
-     <Link  to={'/rooms'+room._id} onClick={scrollTo(0,0)}  key={room._id}   alt="" >
+     <Link  to={'/room/'+room._id} onClick={scrollTo(0,0)}  key={room._id}   alt="" >
       {index%2===0 && <p className='absolute mt-50 px-2 py-2 text-white bg-red-900 rounded-3xl'>Best Seller</p>}
        <img className='w-80 h-60 rounded-lg' src={room.images[0]} alt="" />
        <div>

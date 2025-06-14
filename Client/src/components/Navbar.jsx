@@ -9,8 +9,8 @@ function Navbar() {
     const [isopen, setIsopen] = useState(false);
      const handleLogout=()=>
      {
-      setUser("");
-      setToken("");
+      setUser(null);
+      setToken(null);
       localStorage.clear("user");
       localStorage.clear("token");
      }
@@ -33,12 +33,12 @@ function Navbar() {
                             <img onClick={(e) => { setOpen(!open) }} className='hidden  max-sm:block pt-3 ml-[95%] pr-10 ' src={assets.closeIcon} alt="" />
                         </div>
                         <div className='flex flex-col text-black pt-20 text-center space-y-4'>
-                            <div> <Link to='/' className='hover:underline'>Home    </Link>   </div>
+                            <div> <Link to='/'    className='hover:underline'>Home    </Link>   </div>
                             <div> <Link to='/rooms' className='hover:underline'>Hotels    </Link>   </div>
                             <div><Link className='hover:underline'>Experience    </Link>   </div>
                             <div><Link className='hover:underline'>About    </Link>   </div>
-                            {user && !isOwner &&  <div> <Link  onClick={(e)=>{setShowHotelReg(true)}}       className='border-1 border-white px-2 py-2 rounded-2xl'>List Your Hotels    </Link>   </div>}
-                            {user &&  isOwner &&  <div> <Link  to="/owner" className='border-1 border-white px-2 py-2 rounded-2xl'> DashBoard   </Link>   </div>}     
+                            {user && !isOwner &&  <div> <Link  onClick={(e)=>{setShowHotelReg(true),scrollTo(0,0)}}      className='border-1 border-white px-2 py-2 rounded-2xl'>List Your Hotels    </Link>   </div>}
+                            {user &&  isOwner &&  <div> <Link  to="/owner" onClick={()=>scrollTo(0,0)}    className='border-1 border-white px-2 py-2 rounded-2xl'> DashBoard   </Link>   </div>}     
                             <div>
                                 {!localStorage.getItem("token") && <div className='flex justify-center items-center flex-row min-md:space-x-10'>
                                     <img src={assets.searchIcon} ></img>
@@ -54,7 +54,7 @@ function Navbar() {
                                         {isopen &&
                                             <div className='text-white mx-[35vw] bg-black flex flex-col  px-2 py-2 rounded-lg    shadow-2xs shadow-white'>
                                                 <div><Link className='hover:underline'><button ><Link to="/my-bookings">My Bookings</Link></button>    </Link>   </div>
-                                                <div><Link className='hover:underline  cursor-pointer ' > <button className='cursor-pointer'  onClick={()=>handleLogout} >LogOut</button>    </Link>   </div>
+                                                <div><Link className='hover:underline  cursor-pointer ' > <button className='cursor-pointer'  onClick={handleLogout} >LogOut</button>    </Link>   </div>
                                             </div>
                                         }
                                     </div>
@@ -75,11 +75,11 @@ function Navbar() {
                     <div className='flex flex-row justify-between min-md:w-[70%] max-sm:hidden'>
                         <div className='flex flex-row text-white pt-2  min-md:space-x-6'>
                             <div> <Link to='/' className='hover:underline'>Home    </Link>   </div>
-                            <div> <Link to='/rooms' className='hover:underline'>Hotels    </Link>   </div>
+                            <div> <Link to='/rooms' onClick={()=>scrollTo(0,0)} className='hover:underline'>Hotels    </Link>   </div>
                             <div><Link className='hover:underline'>Experience    </Link>   </div>
                             <div><Link className='hover:underline'>About    </Link>   </div>
                             {user && !isOwner && <div> <Link  onClick={(e)=>{setShowHotelReg(true)}} className='border-1 border-white px-2 py-2 rounded-2xl'>List Your Hotels</Link>   </div>}
-                             {user && isOwner && <div> <Link to="/owner" className='border-1 border-white px-2 py-2 rounded-2xl'>DashBoard   </Link>   </div>}
+                             {user && isOwner && <div> <Link to="/owner" onClick={()=>scrollTo(0,0)}  className='border-1 border-white px-2 py-2 rounded-2xl'>DashBoard   </Link>   </div>}
                         </div>
                         {!localStorage.getItem("token") && <div className='flex flex-row  min-md:space-x-10'>
                             <img src={assets.searchIcon} ></img>

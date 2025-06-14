@@ -37,3 +37,7 @@ module.exports.recentSearchCities=async(req,res)=>
         res.json({success:false,message:e});
     }
 }
+module.exports.checkAuth=async(req,res)=>
+{
+     res.json({success:true,user:req.user});
+}

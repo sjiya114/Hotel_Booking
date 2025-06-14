@@ -32,7 +32,7 @@ const List = () => {
          }
          const toggleavailability=async(roomId)=>
          {
-             const { data } = await axios.post("/rooms/availability",{roomId}, {
+             const { data } = await axios.post("/rooms/availability",{id:roomId}, {
                      headers: {
                          Authorization:
                              `Bearer ${token}`
@@ -87,7 +87,7 @@ const List = () => {
                            <td className='py-3 px-3 border-1 border-gray-200'>${item.pricePerNight}</td>
                             <td className='py-3 px-3 border-1 border-gray-200 text-center text-red-700'>
                                 <div>
-                                    <div onClick={()=>{toggleavailability(item._id)}}    className={`${item.isAvailable?'bg-blue-700':'bg-slate-700'} rounded-full w-10 h-6`}>
+                                    <div onClick={()=>{toggleavailability(item._id)}}    className={`${item.isAvailable?'bg-blue-700':'bg-slate-700'} rounded-full w-10 h-6 cursor-pointer`}>
                                         <div className={`flex ${item.isAvailable?'justify-end':'justify-start'} `}>
                                            <span className={`rounded-full bg-white mx-0.5 w-4.5 h-4.5 mt-0.5   absolute`}></span>
                                         </div>

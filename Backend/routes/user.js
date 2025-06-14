@@ -3,7 +3,7 @@ const { signUp } = require('../Controller/Signup');
 const { loginUser } = require('../Controller/Login');
 const multer=require('multer');
 const { isLoggedIn } = require('../middleware/auth');
-const { fetchUserData, recentSearchCities } = require('../Controller/UserController');
+const { fetchUserData, recentSearchCities, checkAuth } = require('../Controller/UserController');
 const router=express.Router();
 
 const Storage = multer.diskStorage({
@@ -26,4 +26,5 @@ router.post("/signup",upload.single("image"),signUp);
 router.post("/login",loginUser);
 router.get("/",isLoggedIn,fetchUserData);
 router.post("/recent-search",isLoggedIn,recentSearchCities);
+router.get("/checkuser",isLoggedIn,checkAuth);
 module.exports= router;

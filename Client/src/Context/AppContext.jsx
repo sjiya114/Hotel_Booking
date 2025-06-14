@@ -7,12 +7,27 @@ const AppContext = createContext();
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 export const AppProvider = ({ children }) => {
     const nav = useNavigate();
-    const [token, setToken] = useState("");
-    const [user, setUser] = useState("");
+    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [user, setUser] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
     const [showHotelReg, setShowHotelReg] = useState(false);
     const [searchedCities, setSearchedCities] = useState([]);
     const [rooms, setRooms] = useState([]);
+     const checkauth = async () => {
+    try {
+      const { data } = await axios.get("/user/checkuser",{
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            });
+      if (data.success) {
+        setUser(data.user);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
     const fetchUser = async () => {
 
         try {
@@ -59,7 +74,9 @@ export const AppProvider = ({ children }) => {
         }
 
     }
-
+       useEffect(()=>{
+    checkauth();
+},[]);
      useEffect(()=>
     {
       if(user)

@@ -93,8 +93,8 @@ function AllRooms() {
     }
     const clearFilter = (e) => {
         e.preventDefault();
-        
         setArr(rooms);
+        document.getElementById('form-data').reset();
         setSelectedFilters({
             room: [],
             priceRange: [],
@@ -140,6 +140,7 @@ function AllRooms() {
             </div>
 
             {/* Filter */}
+            <form id='form-data' action="">
             <div className='bg-white border-2 mr-10 max-lg:mb-6   flex flex-col space-y-6 border-gray-500 w-[300px] h-fit  text-gray-600'>
                 <div className='text-xs px-4 py-4  cursor-pointer flex flex-row justify-between '>
                     <p className='text-gray-800 font-bold  text-base' onClick={onFilterHandler}   >FILTER</p>
@@ -158,7 +159,7 @@ function AllRooms() {
                         <div className='flex flex-col justify-between space-y-2'>
                             {popularfilters.map((element, index) => (
                                 <>
-                                    <label key={index} htmlFor="filter">{element} <input type="checkbox"
+                                    <label key={index} htmlFor="filter">{element} <input type="checkbox" 
                                         onChange={(e) => {
                                             if (!selectedFilters.room.includes(e.target.value)) {
                                                 selectedFilters.room.push(e.target.value);
@@ -206,6 +207,7 @@ function AllRooms() {
                 </div>}
 
             </div>
+            </form>
         </div>
     )
 }
