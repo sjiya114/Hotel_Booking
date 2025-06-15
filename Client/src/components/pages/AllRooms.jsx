@@ -111,6 +111,8 @@ function AllRooms() {
                 <div className='flex flex-col space-y-10'>
 
                     {arr.map((room, index) => (
+                        <>
+                        { (!searchParams.has("destination") ||  room.hotel.city.toLowerCase().includes(searchParams.get("destination").toLowerCase()))     && 
                         <div key={index} className='space-x-6  flex flex-row max-sm:flex-col  '>
                             <img className='w-80 h-60 rounded-lg' src={room.images[0]} onClick={() => { nav(`/room/${room._id}`) }} title='view room details' alt="hotel-img" />
                             <div className='flex flex-col space-y-3'>
@@ -135,6 +137,9 @@ function AllRooms() {
                                 <p>{room.pricePerNight}/Night</p>
                             </div>
                         </div>
+                            
+                     }
+                       </>
                     ))}
                 </div>
             </div>

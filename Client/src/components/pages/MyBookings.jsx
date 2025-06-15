@@ -70,7 +70,7 @@ const MyBookings = () => {
                                         <span className='text-gray-700'>Guests:{booking.guests}</span>
                                     </div>
                                     <div className='flex flex-row space-x-2'>
-                                        <p className='text-gray-700'>Total:${booking.room.pricePerNight}</p>
+                                        <p className='text-gray-700'>Total:${booking.totalPrice}</p>
                                     </div>
 
                                 </div>

@@ -69,8 +69,8 @@ function RoomDetails() {
         if(res.data.success)
         {
            toast.success("room booked successfully");
+            scrollTo(0,0);
            nav("/my-booking");
-           scrollTo(0,0);
         }
         else
         {
