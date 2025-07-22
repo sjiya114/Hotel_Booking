@@ -7,6 +7,6 @@ Router.post("/book",isLoggedIn,bookRoom);
 Router.get("/user",isLoggedIn,getAllBooking);
 Router.get("/hotel",isLoggedIn,getHotelBooking);
 Router.get("/payment",payment);
-Router.get("/payment/:bookingId",payment);
-Router.post("/updateInfo",updateData);
+Router.get("/payment/:bookingId",isLoggedIn,payment);
+Router.post("/updateInfo",isLoggedIn,updateData);
 module.exports=Router;
