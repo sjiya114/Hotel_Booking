@@ -10,23 +10,21 @@ module.exports.createRoom=async(req,res)=>
 try
 {
 const {roomType,pricePerNight,amenities}=req.body;
-console.log(roomType+" "+Number(pricePerNight));
 const hotel=await hotelModel.findOne({owner:req.user._id});
 if(!hotel)
     {
-        console.log("hello");
+       
         return res.json({success:false,message:"hotel not registered yet"});
     } 
-  console.log("second stage");
+ 
    const uploadImages=req.files.map(async(file)=>
 {
     const response=await v2.uploader.upload(file.path);
-    console.log("third stage");
+    
     return response.secure_url; 
 })
- console.log(uploadImages);
+ 
 const images=await Promise.all(uploadImages);
-console.log("final stage");
 const result= await Rooms.create({
     hotel:hotel._id,
     roomType:roomType,
@@ -34,7 +32,6 @@ const result= await Rooms.create({
     amenities:JSON.parse(amenities),
     images:images,
 })
-console.log("done");
 res.json({success:true,message:"room added successfuly",result});
 }
 catch(e)
@@ -48,7 +45,7 @@ module.exports.getRoom=async(req,res)=>
 {
 try
 {
-console.log("hello");
+
 const room=await Rooms.find({isAvailable:true}).populate(
 {
     path:'hotel',
@@ -59,7 +56,7 @@ const room=await Rooms.find({isAvailable:true}).populate(
     }
 }
 ).sort({createdAt:-1});
-console.log(room);
+
 res.json({success:true,room});
 }
 catch(e)
@@ -72,10 +69,10 @@ module.exports.specificHotelRoom=async(req,res)=>
 {
 try
 {
-console.log("hello");
+
 const hotel=await hotelModel.findOne({owner:req.user._id});
 const rooms=await Rooms.find({hotel:hotel._id}).populate("hotel");
-console.log(rooms);
+
 res.json({success:true,rooms});
 }
 catch(e)

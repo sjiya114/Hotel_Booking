@@ -8,6 +8,8 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 export const AppProvider = ({ children }) => {
     const nav = useNavigate();
     const [token, setToken] = useState(localStorage.getItem("token"));
+    const [paymentId,setPaymentId]=useState(localStorage.getItem("paymentLinkId"));
+    const [bookingId,setBookingId]=useState(localStorage.getItem("bookingId"));
     const [user, setUser] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
     const [showHotelReg, setShowHotelReg] = useState(false);
@@ -28,6 +30,43 @@ export const AppProvider = ({ children }) => {
       toast.error(error.message);
     }
   }
+  const updateAfterPayment=async()=>
+  {
+    try {
+            const { data } = await axios.post("/booking/updateInfo",{bookingId:bookingId,paymentId:paymentId}, {
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            });
+            if (data.success) {
+                toast.success(data.message);
+            }
+        } catch (error) {
+              toast.error(error.message || "Something went wrong");
+        }
+  }
+    const payment=async(bookingId)=>
+    {
+        try {
+            const { data } = await axios.get(`/booking/payment/${bookingId}`, {
+                headers: {
+                    Authorization:
+                        `Bearer ${token}`
+                }
+            });
+             console.log(data);
+            if (data.success) {
+                setPaymentId(data.resData.paymentLinkId);
+                setBookingId(bookingId);
+                localStorage.setItem("bookingId", bookingId);
+localStorage.setItem("paymentLinkId", data.resData.paymentLinkId);
+                window.location.href=data.resData.paymentLinkUrl; 
+            }
+        } catch (error) {
+              toast.error(error.message || "Something went wrong");
+        }
+    }
     const fetchUser = async () => {
 
         try {
@@ -92,7 +131,7 @@ export const AppProvider = ({ children }) => {
 
     const values = {
         isOwner, setIsOwner, showHotelReg, setShowHotelReg, token, setToken, user, setUser,searchedCities,setSearchedCities
-        ,fetchUser,rooms,setRooms
+        ,fetchUser,rooms,setRooms,payment,updateAfterPayment,bookingId,paymentId
     };
     return (
         <AppContext.Provider value={values}>

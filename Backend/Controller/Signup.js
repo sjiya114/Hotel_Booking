@@ -8,7 +8,7 @@ const createToken = (id) => {
 //REGISTER USER
 module.exports.signUp = async (req, res) =>{
     const {username,email,password,role,image} = req.body;
-    console.log(image);
+   
     try{
       const exists = await userData.findOne({email});
       if(exists){
@@ -39,11 +39,11 @@ module.exports.signUp = async (req, res) =>{
        //For saving user data
         const user = await newUser.save()
         const token = createToken(user._id)
-        console.log("hello");
+       
         res.json({success:true,message:"account created successfully",token:token,user:user});
 
     }catch(error){
-        console.log(error);
+       
         res.json({success:false,message:"Error"});
     }
 }

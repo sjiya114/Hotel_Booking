@@ -2,6 +2,11 @@ const Booking =require('../models/Booking');
 const Rooms  =require('../models/Rooms');
 const Hotel =require('../models/Hotel');
 const transporter=require('../config/nodemailer');
+const razorpay=require('razorpay');
+const instance=new razorpay({
+  key_id:process.env.RAZORPAY_KEYID,
+  key_secret:process.env.RAZORPAY_KEYSECRET
+})
 const availability=async(room,checkInDate,checkOutDate)=>
 {
 // console.log(room);
@@ -31,7 +36,6 @@ module.exports.bookRoom = async (req, res) => {
   try {
   
     const { room, checkInDate, checkOutDate, guests } = req.body;
-    console.log("Request data:", { room, checkInDate, checkOutDate, guests });
 
     const user = req.user._id;
    
@@ -64,7 +68,7 @@ module.exports.bookRoom = async (req, res) => {
     });
 
     // Create booking
-    console.log("stage5 - Creating booking...");
+   
     const booking = await Booking.create({
       user: user,
       room: room,
@@ -74,7 +78,6 @@ module.exports.bookRoom = async (req, res) => {
       totalPrice: Number(totalPrice),
       guests: Number(guests),
     });
-    console.log("stage6 - Booking created", booking);
 
     // Send confirmation email
     const mailOptions = {
@@ -99,11 +102,9 @@ module.exports.bookRoom = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("stage7 - Email sent");
 
     res.json({ success: true, booking });
   } catch (e) {
-    console.error("Error in bookRoom:", e);
     res.json({ success: false, error: e.message });
   }
 };
@@ -213,17 +214,72 @@ module.exports.getHotelBooking=async(req,res)=>
 }
 
 //for payment integration
-// export const stripePayment=async(req,res)=>
-// {
-//   try {
-//      const {bookingId}=req.body;
-//      const bookingData=await Booking.findById(bookingId);
-//      const roomData=await Rooms.findById(bookingData.room).populate("hotel");
-//      const totalPrice=bookingData.totalPrice;
-//      //from below line we will get the frontend url
-//      const {origin}=req.headers();
+module.exports.payment=async(req,res)=>
+{
+  try {
+     const {bookingId}=req.params;
+  const {origin}=req.headers;
+  console.log("step1");
+  const bookingData=await Booking.findById({_id:bookingId}).populate("user");
+   console.log("step--");
+  const paymentLinkRequest={
+    amount:Number(bookingData.totalPrice),
+    currency:'INR',
+    customer:{
+      name:bookingData.user.username,
+      email:bookingData.user.email
+    },
+    notify:
+    {
+      email:true,
+      sms:true
+    },
+    callback_url:`${origin}/my-bookings/${bookingId}`,
+    callback_method:'get'
+  }
+   console.log("step2");
+  const paymentLink=await instance.paymentLink.create(paymentLinkRequest);
+  const paymentLinkId=paymentLink.id;
+  const paymentLinkUrl=paymentLink.short_url;
+   console.log("step3");
+  const resData={
+    paymentLinkId,paymentLinkUrl
+  }
+   console.log("step5");
+ res.json({success:true,resData:resData});
+  } catch (error) {
+    return res.json({success:false,message:error.message});
+  }
+ 
+}
+module.exports.updateData=async(req,res)=>
+{
+const {paymentId,bookingId}=req.body;
+try {
+ const bookingData=await Booking.findOne({_id:bookingId});
+ 
+  let payment;
+  try {
+   const paymentList = await instance.paymentLink.fetch(paymentId);
+     payment = paymentList.payments;
+  } catch (err) {
+    console.error("Error while fetching payment:", err.message);
+    return res.status(500).json({ success: false, message: "Failed to fetch payment" });
+  }
+ if(payment[0].status==='captured')
+ {
+  bookingData.status="confirmed";
+  bookingData.paymentMethod="Razor Pay";
+  bookingData.isPaid=true;
+  await bookingData.save();
+   res.json({success:true,message:"payment done successfully"});
+ }
+ else
+ {
+  return res.json({success:false,message:"error while making payment"});
+ }
 
-//   } catch (error) {
-    
-//   }
-// }
+} catch (error) {
+   return res.json({success:false,message:error.message});
+}
+}

@@ -5,7 +5,7 @@ try
 {
     const role=req.user.role;
     const userdata=req.user.recentSearchCities;
-    console.log("searchedcities:"+userdata);
+   
     res.json({success:true,role:role,data:userdata});
 }
 catch(err)
@@ -29,7 +29,7 @@ module.exports.recentSearchCities=async(req,res)=>
         client.recentSearchCities.push(recentSearch);
     }
     client.save();
-    console.log("fetched");
+  
     res.json({success:true,message:"city added successfully"});
     }
     catch(e)

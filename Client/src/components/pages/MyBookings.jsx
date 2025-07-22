@@ -3,11 +3,14 @@ import Title from '../Title'
 import { useState } from 'react'
 import { assets } from '../../assets/assets'
 import { UseAppContext } from '../../Context/AppContext'
+import { useSearchParams } from 'react-router-dom'
 import axios from 'axios';
 
 const MyBookings = () => {
-    const {user,token}=UseAppContext();
+    const {user,token,payment,updateAfterPayment,bookingId,paymentId}=UseAppContext();
     const [bookings, setBookings] = useState([]);
+    //  const searchParams = new URLSearchParams(window.location.search);
+    //   const paymentId = searchParams.get("razorpay_payment_id");
    const fetchBookings = async () => {
     try {
         console.log("hello");
@@ -26,14 +29,19 @@ const MyBookings = () => {
         toast.error(error.message || "Something went wrong");
     }
 };
-
+   useEffect(()=>{
+   if (paymentId && bookingId) {
+      updateAfterPayment();
+      fetchBookings();
+    }
+   },[paymentId,bookingId])
     useEffect(()=>
     {
    if(user)
    {
     fetchBookings();
    }
-    },[user,bookings])
+    },[user])
     return (
         <>
             <div className='my-30  max-w-sm:mx-2  mx-20 max-lg:mx-10    space-y-5'>
@@ -101,7 +109,7 @@ const MyBookings = () => {
                                     <p className={`${booking.isPaid?'text-green-900':'text-red-800'}`}  > {booking.isPaid?"Paid":"Unpaid"}   </p>
 
                                 </div>
-                               {!booking.isPaid && <button className='border-2 border-gray-500 text-gray-800 rounded-lg px-1 py-1'>Pay Now</button>}
+                               {!booking.isPaid && <button  onClick={()=>{payment(booking._id)}}  className='border-2 border-gray-500 text-gray-800 rounded-lg cursor-pointer px-1 py-1'>Pay Now</button>}
                             </div>
 
                         </div>
